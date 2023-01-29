@@ -1,6 +1,6 @@
 {
   "name": "mintdb-js-beta",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An SDK for the mintDB database",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -19,7 +19,10 @@
     "type": "git",
     "url": "git+https://github.com/erodriguez000/mintJS.git"
   },
-  "keywords": ["database", "mintDB"],
+  "keywords": [
+    "database",
+    "mintDB"
+  ],
   "author": "Eric Rodriguez",
   "license": "MIT",
   "bugs": {
@@ -27,7 +30,6 @@
   },
   "homepage": "https://github.com/erodriguez000/mintJS#readme",
   "devDependencies": {
-    "@types/ws": "^8.5.4",
     "@types/jest": "^29.4.0",
     "jest": "^29.4.1",
     "prettier": "^2.8.3",
@@ -40,6 +42,7 @@
     "lib/**/*"
   ],
   "dependencies": {
+    "@types/ws": "^8.5.4",
     "ws": "^8.12.0"
   }
 }
