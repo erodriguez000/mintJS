@@ -1,6 +1,6 @@
 {
   "name": "mintdb-js-beta",
-  "version": "1.0.901",
+  "version": "1.0.902",
   "description": "An SDK for the mintDB database",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
