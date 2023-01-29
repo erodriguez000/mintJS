@@ -1,7 +1,7 @@
 {
   "name": "mintjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "An SDK for the mintDB database",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -9,19 +9,19 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "prepare" : "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/erodriguez000/mintJS.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["database", "mintDB"],
+  "author": "Eric Rodriguez",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/erodriguez000/mintJS/issues"
   },
@@ -37,5 +37,10 @@
   },
   "files": [
     "lib/**/*"
-  ]
+  ],
+  "dependencies": {
+    "@types/ws": "^8.5.4",
+    "secure-ls": "^1.2.6",
+    "ws": "^8.12.0"
+  }
 }
