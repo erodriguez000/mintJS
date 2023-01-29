@@ -1,5 +1,5 @@
 {
-  "name": "mintdb-js",
+  "name": "mintdb-js-beta",
   "version": "1.0.0",
   "description": "An SDK for the mintDB database",
   "main": "lib/index.js",
