@@ -55,13 +55,9 @@ export default class MintDB {
         this.ws = new WebSocket(url);
     }
     async on(subscriptions: string[] = [], callback: (ev: MessageEvent<any>) => void) {
-        const { url } = await this.registerWebSocket();
-        this.ws = new WebSocket(url);
-        this.ws.onopen = () => {
-            if (this.ws) {
-                subscriptions.forEach((s) => this.addSubscription(s));
-                this.ws.onmessage = () => callback;
-            }
+        if (this.ws) {
+            subscriptions.forEach((s) => this.addSubscription(s));
+            this.ws.onmessage = () => callback;
         }
     }
     addSubscription(sub: string) {
