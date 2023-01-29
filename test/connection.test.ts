@@ -66,4 +66,9 @@ describe("MintDB", () => {
             console.log(res);
         }
     });
+    test("connect websocket", async () => {
+        await mint.on(["car"], (ev) => {
+            console.log(ev)
+        })
+    });
 });
