@@ -1,5 +1,5 @@
 {
-  "name": "mintjs",
+  "name": "mintdb-js",
   "version": "1.0.0",
   "description": "An SDK for the mintDB database",
   "main": "lib/index.js",
@@ -40,7 +40,6 @@
   ],
   "dependencies": {
     "@types/ws": "^8.5.4",
-    "secure-ls": "^1.2.6",
     "ws": "^8.12.0"
   }
 }
