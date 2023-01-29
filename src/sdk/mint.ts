@@ -1,5 +1,5 @@
 import { AuthRequest, Compare, CompareStatement, Key, SQL, SQLPatch, Token, WebSocketURL } from "../types";
-import { WebSocket } from "ws";
+import WebSocket = require("ws");
 export default class MintDB {
     url: string;
     subscriptions: string[];
