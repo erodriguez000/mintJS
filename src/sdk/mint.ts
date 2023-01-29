@@ -1,5 +1,5 @@
 import { AuthRequest, Compare, CompareStatement, Key, SQL, SQLPatch, Token, WebSocketURL } from "../types";
-
+import { WebSocket } from "ws";
 export default class MintDB {
     url: string;
     subscriptions: string[];
@@ -36,52 +36,52 @@ export default class MintDB {
         };
         return await this.httpRequest(data, endpoint);
     }
-    // async registerWebSocket(): Promise<WebSocketURL> {
-    //     const data = {
-    //         user_id: 1,
-    //     }
-    //     const res = await fetch(this.url + "/register", {
-    //         method: "POST",
-    //         headers: {
-    //             Accept: "application/json",
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(data)
-    //     });
-    //     return await res.json();
-    // }
-    // async listen() {
-    //     const { url } = await this.registerWebSocket();
-    //     this.ws = new WebSocket(url);
-    // }
-    // async on(subscriptions: string[] = [], callback: (ev: MessageEvent<any>) => void) {
-    //     const { url } = await this.registerWebSocket();
-    //     this.ws = new WebSocket(url);
-    //     this.ws.onopen = () => {
-    //         if (this.ws) {
-    //             subscriptions.forEach((s) => this.addSubscription(s));
-    //             this.ws.onmessage = () => callback;
-    //         }
-    //     }
-    // }
-    // addSubscription(sub: string) {
-    //     this.subscriptions.push(sub);
-    //     this.updateSubcriptionList();
-    // }
-    // removeSubscription(subscription: string) {
-    //     this.subscriptions = this.subscriptions.filter(sub => sub !== subscription);
-    //     this.updateSubcriptionList();
-    // }
+    async registerWebSocket(): Promise<WebSocketURL> {
+        const data = {
+            user_id: 1,
+        }
+        const res = await fetch(this.url + "/register", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        });
+        return await res.json();
+    }
+    async listen() {
+        const { url } = await this.registerWebSocket();
+        this.ws = new WebSocket(url);
+    }
+    async on(subscriptions: string[] = [], callback: (ev: MessageEvent<any>) => void) {
+        const { url } = await this.registerWebSocket();
+        this.ws = new WebSocket(url);
+        this.ws.onopen = () => {
+            if (this.ws) {
+                subscriptions.forEach((s) => this.addSubscription(s));
+                this.ws.onmessage = () => callback;
+            }
+        }
+    }
+    addSubscription(sub: string) {
+        this.subscriptions.push(sub);
+        this.updateSubcriptionList();
+    }
+    removeSubscription(subscription: string) {
+        this.subscriptions = this.subscriptions.filter(sub => sub !== subscription);
+        this.updateSubcriptionList();
+    }
 
-    // private updateSubcriptionList() {
-    //     const data = {
-    //       "topics": this.subscriptions
-    //     }
-    //     this.ws?.send(JSON.stringify(data));
-    // }
-    // closeWS() {
-    //     this.ws?.close(1000, "User Disconnect");
-    // }
+    private updateSubcriptionList() {
+        const data = {
+          "topics": this.subscriptions
+        }
+        this.ws?.send(JSON.stringify(data));
+    }
+    closeWS() {
+        this.ws?.close(1000, "User Disconnect");
+    }
     async publish(topic: string, userId: number, msg: string) {
         const data = { topic, user_id: userId, msg };
         const res = await fetch(this.url + "/publish", {
