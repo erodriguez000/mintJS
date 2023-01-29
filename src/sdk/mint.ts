@@ -10,36 +10,23 @@ export default class MintDB {
         this.subscriptions = subscriptions;
         this.ws = null;
     }
-    async signup(username: string, password: string): Promise<Token | undefined> {
+    async signup(username: string, password: string): Promise<Token> {
         const endpoint = "/auth";
         const data: AuthRequest = {
             event: "signup",
             username,
             password
         };
-        try {
-            return await this.httpRequest(data, endpoint);
-            // TODO: Update to Token struct as response
-            // localStorage.set("jwt", res);
-        } catch (error) {
-            console.log(error);
-        }
+        return await this.httpRequest(data, endpoint);
     }
-    async signin(username: string, password: string): Promise<Token|undefined> {
+    async signin(username: string, password: string): Promise<Token> {
         const endpoint = "/auth";
         const data: AuthRequest = {
             event: "signin",
             username,
             password
         };
-        try {
-            const res: Token = await this.httpRequest(data, endpoint);
-            console.log(res)
-            // localStorage.set("jwt", res);
-            return res
-        } catch (error) {
-            console.log(error);
-        }
+        return await this.httpRequest(data, endpoint);
     }
     async signout(username: string): Promise<string|undefined> {
         const endpoint = "/auth";
@@ -48,13 +35,7 @@ export default class MintDB {
             username,
             password: "",
         };
-        try {
-            const res: string = await this.httpRequest(data, endpoint);
-            // localStorage.remove("jwt");
-            return res;
-        } catch (error) {
-            console.log(error);
-        }
+        return await this.httpRequest(data, endpoint);
     }
     async registerWebSocket(): Promise<WebSocketURL> {
         const data = {
@@ -89,12 +70,12 @@ export default class MintDB {
         this.updateSubcriptionList();
     }
     removeSubscription(subscription: string) {
-        this.subscriptions = this.subscriptions.filter(sub => sub != subscription);
+        this.subscriptions = this.subscriptions.filter(sub => sub !== subscription);
         this.updateSubcriptionList();
     }
 
     private updateSubcriptionList() {
-        let data = {
+        const data = {
           "topics": this.subscriptions
         }
         this.ws?.send(JSON.stringify(data));
@@ -102,8 +83,8 @@ export default class MintDB {
     closeWS() {
         this.ws?.close(1000, "User Disconnect");
     }
-    async publish(topic: string, user_id: number, msg: string) {
-        const data = { topic, user_id, msg };
+    async publish(topic: string, userId: number, msg: string) {
+        const data = { topic, user_id: userId, msg };
         const res = await fetch(this.url + "/publish", {
             method: "POST",
             headers: {
@@ -139,11 +120,11 @@ export default class MintDB {
         return await this.httpRequest(data); 
     }
 
-    async addDoc(tb: string, doc: string, docData: Record<string, any>): Promise<Record<string, any>> {
+    async addDoc(table: string, document: string, docData: Record<string, any>): Promise<Record<string, any>> {
         const data = {
             stmt: "CREATE",
-            tb: tb,
-            doc: doc,
+            tb: table,
+            doc: document,
             data: docData,
             topic: "",
             user_id: 1,
@@ -151,11 +132,11 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async merge(tb: string, doc: string, docData: Record<string, any>): Promise<Record<string, any>> {
+    async merge(table: string, document: string, docData: Record<string, any>): Promise<Record<string, any>> {
         const data = {
             stmt: "MERGE",
-            tb: tb,
-            doc: doc,
+            tb: table,
+            doc: document,
             data: docData,
             topic: "",
             user_id: 1,
@@ -163,37 +144,35 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async push(tb: string, doc: string, docData: SQLPatch): Promise<Record<string, any>> {
+    async push(table: string, document: string, docData: SQLPatch): Promise<Record<string, any>> {
         const data = {
             stmt: "PUSH",
-            tb: tb,
-            doc: doc,
+            tb: table,
+            doc: document,
             data: docData,
             topic: "",
             user_id: 1,
             message: ""    
         }
-        console.log(data);
         return await this.httpRequest(data);
     }
-    async put(tb: string, doc: string, docData: SQLPatch): Promise<Record<string, any>> {
+    async put(table: string, document: string, docData: SQLPatch): Promise<Record<string, any>> {
         const data = {
             stmt: "PUT",
-            tb: tb,
-            doc: doc,
+            tb: table,
+            doc: document,
             data: docData,
             topic: "",
             user_id: 1,
             message: ""    
         }
-        console.log(data);
         return await this.httpRequest(data);
     }
-    async getOne(table: string, doc: string): Promise<Record<string, any>> {
+    async getOne(table: string, document: string): Promise<Record<string, any>> {
         const data = {
             stmt: "SELECT",
             tb: table,
-            doc: doc,
+            doc: document,
             data: {},
             topic: "",
             user_id: 1,
@@ -216,11 +195,11 @@ export default class MintDB {
         return await this.httpRequest(data);
     }
 
-    async find(tb: string, search: Record<string, any>): Promise<Record<string, any>[]> {
+    async find(table: string, search: Record<string, any>): Promise<Record<string, any>[]> {
         // filters = {"city": "Clearwater"}
         const data: SQL = {
             stmt: "FIND",
-            tb: tb,
+            tb: table,
             doc: "",
             data: search,
             topic: "",
@@ -229,11 +208,11 @@ export default class MintDB {
         };
         return await this.httpRequest(data);
     }
-    async match(tb: string, search: Record<string, any>): Promise<Record<string, any>[]> {
+    async match(table: string, search: Record<string, any>): Promise<Record<string, any>[]> {
         // filters = {"city": "Clearwater"}
         const data: SQL = {
             stmt: "MATCH",
-            tb: tb,
+            tb: table,
             doc: "",
             data: search,
             topic: "",
@@ -242,10 +221,10 @@ export default class MintDB {
         };
         return await this.httpRequest(data);
     }
-    async where(tb: string, search: Compare): Promise<Record<string, any>[]> {
+    async where(table: string, search: Compare): Promise<Record<string, any>[]> {
         const data: CompareStatement = {
             stmt: "COMPARE",
-            tb: tb,
+            tb: table,
             doc: "",
             data: search,
             topic: "",
@@ -254,11 +233,11 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async deleteKey(tb: string, doc: string, key: Key): Promise<Record<string, any>> {
+    async deleteKey(table: string, document: string, key: Key): Promise<Record<string, any>> {
         const data = {
             stmt: "DELETE",
-            tb: tb,
-            doc: doc,
+            tb: table,
+            doc: document,
             data: key,
             topic: "",
             user_id: 1,
@@ -266,11 +245,11 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async deleteDocument(tb: string, doc: string): Promise<Record<string, any>> {
+    async deleteDocument(table: string, document: string): Promise<Record<string, any>> {
         const data = {
             stmt: "DELETE",
-            tb: tb,
-            doc: doc,
+            tb: table,
+            doc: document,
             data: {},
             topic: "",
             user_id: 1,
@@ -278,10 +257,10 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async deleteKeyFromTable(tb: string, key: string): Promise<string> {
+    async deleteKeyFromTable(table: string, key: string): Promise<string> {
         const data = {
             stmt: "DELETE",
-            tb: tb,
+            tb: table,
             doc: "*",
             data: { key },
             topic: "",
@@ -290,29 +269,29 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async addEdge(tb: string, doc: string, rel_tb: string, rel_doc: string, rel: string): Promise<Record<string, any>> {
+    async addEdge(table: string, document: string, relationTb: string, relationDocument: string, relationship: string): Promise<Record<string, any>> {
         const data: SQL = {
             stmt: "REL",
-            tb: tb,
+            tb: table,
+            doc: document,
             data: {
-                rel_tb,
-                rel_doc,
-                rel
+                rel_tb: relationTb,
+                rel_doc: relationDocument,
+                rel: relationship
             },
-            doc: "",
             topic: "",
             user_id: 1,
             message: ""
         };
         return await this.httpRequest(data);
     }
-    async bfs(tb: string, doc: string, rel: string, target_doc: string): Promise<Record<string,any>> {
+    async bfs(table: string, document: string, relation: string, targetDocument: string): Promise<Record<string,any>> {
         const data: SQL = {
             stmt: "BFS",
-            tb: tb,
+            tb: table,
             data: {
-                target_doc,
-                rel
+                target_doc: targetDocument,
+                rel: relation
             },
             doc: "",
             topic: "",
@@ -321,15 +300,15 @@ export default class MintDB {
         };
         return await this.httpRequest(data);
     }
-    async dfs(tb: string, doc: string, rel: string, target_doc: string): Promise<Record<string,any>> {
+    async dfs(table: string, document: string, relationship: string, targetDocument: string): Promise<Record<string,any>> {
         const data: SQL = {
             stmt: "DFS",
-            tb: tb,
+            tb: table,
+            doc: document,
             data: {
-                target_doc,
-                rel
+                target_doc: targetDocument,
+                rel: relationship
             },
-            doc: "",
             topic: "",
             user_id: 1,
             message: ""
