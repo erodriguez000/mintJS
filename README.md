@@ -10,6 +10,7 @@
     <a href="https://www.linkedin.com/in/eric-rodriguez-3a402811b/"><img src="https://img.shields.io/badge/linkedIn-connect-4777AF"></a>
 </p>
 
+
 # Get Started
 ```sh
 npm install mintjs
@@ -19,7 +20,7 @@ npm install mintjs
 ```ts
 import MintDB from "mintdb";
 
-const mint = new MintDB("http:127.0.0.1:8000");
+const mint = new MintDB("http://127.0.0.1:8000");
 
 // returns document or error if document exists
 const createDocument = async () => {
@@ -45,7 +46,7 @@ const createTable = async () => {
 ```ts
 import MintDB from "mintdb";
 
-const mint = new MintDB("http:127.0.0.1:8000");
+const mint = new MintDB("http://127.0.0.1:8000");
 
 // Returns error or document
 const fetchDocument = async () => {
@@ -94,7 +95,7 @@ Returns modified document or error.
 ```ts
 import MintDB from "mintdb";
 
-const mint = new MintDB("http:127.0.0.1:8000");
+const mint = new MintDB("http://127.0.0.1:8000");
 
 // Merges all key value pairs
 const mergeDocument = async () => {
@@ -137,7 +138,7 @@ Returns the deleted document or error
 ```ts
 import MintDB from "mintdb";
 
-const mint = new MintDB("http:127.0.0.1:8000");
+const mint = new MintDB("http://127.0.0.1:8000");
 
 // Returns deleted document or error if document does not exist
 const deleteDocument = async () => {
@@ -171,7 +172,7 @@ Connect the websocket to listen to real time mutations on a table, document, or 
 ```ts
 import MintDB from "mintdb";
 
-const mint = new MintDB("http:127.0.0.1:8000");
+const mint = new MintDB("http://127.0.0.1:8000");
 
 // Listens for mutations to:
 // "person" - any mutations to documents in the person table
@@ -204,7 +205,7 @@ Add edges and search with BFS and DFS
 ```ts
 import MintDB from "mintdb";
 
-const mint = new MintDB("http:127.0.0.1:8000");
+const mint = new MintDB("http://127.0.0.1:8000");
 
 // Adds an edge to a document, returns string confirmation or error
 const addEdge = async () => {
