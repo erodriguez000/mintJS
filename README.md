@@ -18,7 +18,7 @@ npm install mintdb-js-beta
 # Create
 
 ```ts
-import MintDB from "mintdb";
+import MintDB from "mintdb-js-beta";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -44,7 +44,7 @@ const createTable = async () => {
 
 # Read
 ```ts
-import MintDB from "mintdb";
+import MintDB from "mintdb-js-beta";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -93,7 +93,7 @@ const compareDocuments = async () => {
 
 Returns modified document or error.
 ```ts
-import MintDB from "mintdb";
+import MintDB from "mintdb-js-beta";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -136,7 +136,7 @@ const pushValue = async () => {
 Returns the deleted document or error
 
 ```ts
-import MintDB from "mintdb";
+import MintDB from "mintdb-js-beta";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -170,7 +170,7 @@ const deleteKeyFromTable = async () => {
 Connect the websocket to listen to real time mutations on a table, document, or key in a document.
 
 ```ts
-import MintDB from "mintdb";
+import MintDB from "mintdb-js-beta";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -183,7 +183,8 @@ const listenOn = async () => {
     const callback = (ev: MessageEvent<any>) => {
         console.log(ev);
     }
-    await mint.on(sub, callback);
+    await mint.listen(); 
+    mint.on(sub, callback);
 }
 
 // Close Websocket connection
@@ -203,7 +204,7 @@ const removeSub = (sub: string) => {
 
 Add edges and search with BFS and DFS
 ```ts
-import MintDB from "mintdb";
+import MintDB from "mintdb-js-beta";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
