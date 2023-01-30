@@ -13,7 +13,7 @@
 
 # Get Started
 ```sh
-npm install mintjs
+npm install mintdb-js-beta
 ```
 # Create
 
