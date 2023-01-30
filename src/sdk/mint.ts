@@ -1,5 +1,5 @@
 import { AuthRequest, Compare, CompareStatement, Key, SQL, SQLPatch, Token, WebSocketURL } from "../types";
-import { WebSocket } from 'isomorphic-ws';
+import WebSocket from "../ws/node"
 export default class MintDB {
     url: string;
     subscriptions: string[];
@@ -50,14 +50,19 @@ export default class MintDB {
         });
         return await res.json();
     }
-    async listen() {
-        const { url } = await this.registerWebSocket();
-        this.ws = new WebSocket(url);
+    async connectWS() {
+        return new Promise(async (resolve, reject) => {
+          const { url } = await this.registerWebSocket();
+          this.ws = new WebSocket(url);
+          this.ws.addEventListener('open', (t: any) => resolve(t));
+          this.ws.addEventListener('error', (error: Error) => reject(error));
+        });
     }
     async on(subscriptions: string[] = [], callback: (ev: MessageEvent<any>) => void) {
+        await this.connectWS();
         if (this.ws) {
             subscriptions.forEach((s) => this.addSubscription(s));
-            this.ws.onmessage = () => callback;
+            this.ws.onmessage = (ev: MessageEvent<any>) => callback(ev);
         }
     }
     addSubscription(sub: string) {

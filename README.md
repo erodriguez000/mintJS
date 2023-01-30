@@ -57,7 +57,7 @@ const fetchDocument = async () => {
 // returns Array of documents or error
 const fetchAllTableDocuments = async () => {
     const table = "person";
-    const res: Record<string, any>[] = await mint.getAll(person);
+    const res: Record<string, any>[] = await mint.getAll(table);
 };
 // Results match year OR state
 const findTableDocuments =  async () => {
@@ -183,8 +183,7 @@ const listenOn = async () => {
     const callback = (ev: MessageEvent<any>) => {
         console.log(ev);
     }
-    await mint.listen(); 
-    mint.on(sub, callback);
+    await mint.on(sub, callback);
 }
 
 // Close Websocket connection

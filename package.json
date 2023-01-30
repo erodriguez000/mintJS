@@ -1,6 +1,6 @@
 {
   "name": "mintdb-js-beta",
-  "version": "1.0.905",
+  "version": "1.1.001",
   "description": "An SDK for the mintDB database",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "@types/node": "^18.11.18",
+    "@types/ws": "^8.5.4",
     "jest": "^29.4.1",
     "prettier": "^2.8.3",
     "ts-jest": "^29.0.5",
@@ -43,6 +44,7 @@
     "dist/**/*"
   ],
   "dependencies": {
-    "isomorphic-ws": "^5.0.0"
+    "isomorphic-ws": "^5.0.0",
+    "ws": "^8.12.0"
   }
 }
