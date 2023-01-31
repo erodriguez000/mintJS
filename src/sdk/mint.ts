@@ -1,4 +1,4 @@
-import { AuthRequest, Compare, CompareStatement, Key, SQL, SQLPatch, Token, WebSocketURL } from "../types";
+import { AuthRequest, Compare, CompareStatement, Key, SQL, SQLPatch, Token, WebSocketURL, KeyValue } from "../types";
 import WebSocket from "../ws/node"
 export default class MintDB {
     url: string;
@@ -144,7 +144,7 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async push(table: string, document: string, docData: SQLPatch): Promise<Record<string, any>> {
+    async push(table: string, document: string, docData: KeyValue): Promise<Record<string, any>> {
         const data = {
             stmt: "PUSH",
             tb: table,
