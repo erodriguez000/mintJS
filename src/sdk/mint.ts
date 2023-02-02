@@ -144,24 +144,30 @@ export default class MintDB {
         }
         return await this.httpRequest(data);
     }
-    async push(table: string, document: string, docData: KeyValue): Promise<Record<string, any>> {
+    async push(table: string, document: string, key: string, value: any): Promise<Record<string, any>> {
         const data = {
             stmt: "PUSH",
             tb: table,
             doc: document,
-            data: docData,
+            data: {
+                key,
+                value
+            },
             topic: "",
             user_id: 1,
             message: ""    
         }
         return await this.httpRequest(data);
     }
-    async put(table: string, document: string, docData: SQLPatch): Promise<Record<string, any>> {
+    async put(table: string, document: string, key: string, value: any): Promise<Record<string, any>> {
         const data = {
             stmt: "PUT",
             tb: table,
             doc: document,
-            data: docData,
+            data: {
+                key,
+                value
+            },
             topic: "",
             user_id: 1,
             message: ""    
@@ -221,12 +227,16 @@ export default class MintDB {
         };
         return await this.httpRequest(data);
     }
-    async where(table: string, search: Compare): Promise<Record<string, any>[]> {
+    async where(table: string, leftHandSide: string, operator: string, rightHandSide: any): Promise<Record<string, any>[]> {
         const data: CompareStatement = {
             stmt: "COMPARE",
             tb: table,
             doc: "",
-            data: search,
+            data: {
+                lhs: leftHandSide,
+                op: operator,
+                rhs: rightHandSide
+            },
             topic: "",
             user_id: 1,
             message: ""
@@ -293,7 +303,7 @@ export default class MintDB {
                 target_doc: targetDocument,
                 rel: relation
             },
-            doc: "",
+            doc: document,
             topic: "",
             user_id: 1,
             message: ""

@@ -10,15 +10,16 @@
     <a href="https://www.linkedin.com/in/eric-rodriguez-3a402811b/"><img src="https://img.shields.io/badge/linkedIn-connect-4777AF"></a>
 </p>
 
+mintDB JS is a typescript SDK for the (mintDB)[https://github.com/erodriguez000/mintdb] database
 
 # Get Started
 ```sh
-npm install mintdb-js-beta
+npm install mintdb-js
 ```
 # Create
 
 ```ts
-import MintDB from "mintdb-js-beta";
+import MintDB from "mintdb-js";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -44,7 +45,7 @@ const createTable = async () => {
 
 # Read
 ```ts
-import MintDB from "mintdb-js-beta";
+import MintDB from "mintdb-js";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -86,14 +87,14 @@ const compareDocuments = async () => {
         op: "icontains",
         rhs: "amg"
     };
-    let res: Record<string, any>[] = await mint.where(table, search);
+    let res: Record<string, any>[] = await mint.where(table, "model", "icontains", "amg");
 }
 ```
 # Update
 
 Returns modified document or error.
 ```ts
-import MintDB from "mintdb-js-beta";
+import MintDB from "mintdb-js";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -112,22 +113,16 @@ const mergeDocument = async () => {
 const putKVPair = async () => {
     const table = "car";
     const document = "car:1";
-    const data: KVPair =  {
-        key: "owner",
-        value: "person:1",
-    };
-    let res: Record<string, any> = await mint.put(table, document, data);
+
+    let res: Record<string, any> = await mint.put(table, document, "owner", "person:1");
 }
 
 // Pushes a value to a key that is an array. If the key value is not an array, an error will be thrown.
 const pushValue = async () => {
     const table = "car";
     const document = "car:1";
-    const data =  {
-        key: "parts",
-        value: "Engine",
-    };
-    let res: Record<string, any> = await mint.push(table, document, data);
+
+    let res: Record<string, any> = await mint.push(table, document, "parts", "Engine");
 }
 ```
 
@@ -136,7 +131,7 @@ const pushValue = async () => {
 Returns the deleted document or error
 
 ```ts
-import MintDB from "mintdb-js-beta";
+import MintDB from "mintdb-js";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -170,7 +165,7 @@ const deleteKeyFromTable = async () => {
 Connect the websocket to listen to real time mutations on a table, document, or key in a document.
 
 ```ts
-import MintDB from "mintdb-js-beta";
+import MintDB from "mintdb-js";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 
@@ -203,7 +198,7 @@ const removeSub = (sub: string) => {
 
 Add edges and search with BFS and DFS
 ```ts
-import MintDB from "mintdb-js-beta";
+import MintDB from "mintdb-js";
 
 const mint = new MintDB("http://127.0.0.1:8000");
 

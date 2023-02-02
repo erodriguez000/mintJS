@@ -42,12 +42,7 @@ describe("MintDB", () => {
         expect(documents.length === 1).toBe(true);
     });
     test("where() filters documents by given comparison", async () => {
-        const search: Compare = {
-            lhs: "model",
-            op: "icontains",
-            rhs: "amg"
-        };
-        const res = await mint.where("car", search);
+        const res = await mint.where("car", "model", "icontains", "amg");
         expect(Array.isArray(res)).toBe(true);
     });
     test("signup returns jwt", async () => {
