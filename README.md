@@ -10,7 +10,7 @@
     <a href="https://www.linkedin.com/in/eric-rodriguez-3a402811b/"><img src="https://img.shields.io/badge/linkedIn-connect-4777AF"></a>
 </p>
 
-mintDB JS is a typescript SDK for the (mintDB)[https://github.com/erodriguez000/mintdb] database
+mintDB JS is a typescript SDK for the [mintDB](https://github.com/erodriguez000/mintdb) database
 
 # Get Started
 ```sh
